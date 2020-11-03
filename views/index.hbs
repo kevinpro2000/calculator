@@ -1,0 +1,105 @@
+	<div class="container">
+    	<form name="frm" method="POST" onsubmit="return checkValid(frm)">
+        	<h1 style="text-align:center"><span class="label label-default">{{title}}</span></h1>
+        	<div class="form-group row">
+        		<label for="firstnum" class="col-sm-2 col-form-label">Số thứ nhất</label>
+           		<div class="col-sm-10">
+            		<input class="form-control" id="firstnum" name="firstnum" value="{{firstnum}}" onfocusout="inputCheck()">
+            	</div>
+        	</div>
+        	<div class="form-group row">
+        	<label for="secondnum" class="col-sm-2 col-form-label">Số thứ hai</label>
+            	<div class="col-sm-10">
+            		<input class="form-control" id="secondnum" name="secondnum" value="{{secondnum}}" onfocusout="inputCheck()">
+            	</div>
+        	</div>
+            <fieldset class="form-group">
+            	<div class="row">
+                	<legend class="col-form-label col-sm-2 pt-0">Phép tính</legend>
+                    <div class="col-sm-10">
+                    	<div class="form-check">
+                        	<input class="form-check-input" type="radio" name="Op" id="Op1" value="plus" {{pluschecked}}>
+                            <label class="form-check-label" for="Op1">Cộng</label>
+                        </div>
+                        <div class="form-check">
+                        	<input class="form-check-input" type="radio" name="Op" id="Op2" value="subtract" {{subchecked}}>
+                            <label class="form-check-label" for="Op2">Trừ</label>
+                        </div>
+                        <div class="form-check">
+                        	<input class="form-check-input" type="radio" name="Op" id="Op3" value="multiple" {{mulchecked}}>
+                            <label class="form-check-label" for="Op3">Nhân</label>
+                        </div>
+                        <div class="form-check">
+                        	<input class="form-check-input" type="radio" name="Op" id="Op4" value="divide" {{divchecked}}>
+                            <label class="form-check-label" for="Op4">Chia</label>
+                        </div>
+                    </div>
+                </div>                
+            </fieldset>
+            <div class="form-group-row">
+            	<div class="col-sm-2">
+                	<button type="submit" class="btn btn-primary btn-block">Tính</button>
+                </div>
+            </div>
+            <div class="form-group row">
+				<label for="result" class="col-sm-2 col-form-label">Kết quả</label>
+				<div class="col-sm-10">
+			  		<input type="number" class="form-control" id="result" value="{{result}}" style="background-color:white" readonly>
+				</div>
+			</div>
+            <div class="form-group row">
+				<label class="col-sm-2 col-form-label">Thông báo</label>
+                <div class="col-sm">
+			  		<input class="form-control-plaintext" id="errorNotice" style="color:red;font-style:italic" readonly>
+				</div>				
+			</div>
+    		</form>
+    	</div>
+	<script type="text/javascript">
+		function inputCheck()
+        	{
+        		let tmp1=document.getElementById("firstnum");
+            		if (isNaN(tmp1.value))
+            		{
+            			showError("Số thứ nhất không phải số thực. Mời nhập lại!");      
+                		tmp1.value="";
+            		}
+            
+           	 	let tmp2=document.getElementById("secondnum");
+            		if (isNaN(tmp2.value))
+            		{
+            			showError("Số thứ hai không phải số thực. Mời nhập lại!");      
+                		tmp2.value="";
+            		}
+        	}
+
+		function checkValid(frm){
+			document.getElementById("result").value = "";
+   	     		var num1 = frm.firstnum.value;
+			var num2 = frm.secondnum.value;
+			var op = frm.Op.value;
+            		if (num1.length == 0){
+            			showError("Bạn chưa nhập số thứ nhất!");
+                		return false;
+            		}
+            		if (num2.length == 0){
+            			showError("Bạn chưa nhập số thứ hai!");
+                		return false;
+            		}
+			if (op == ""){
+				showError("Bạn chưa chọn phép tính");
+				return false;
+			}
+			if (op == "divide" && num2 == "0"){
+				showError("Không thể chia cho 0");
+				return false;
+			}
+            		showError("");
+			return true;
+        	}
+
+		function showError(errorStr){
+        		var temp=document.getElementById("errorNotice");
+            		temp.value=errorStr;
+        	}
+	</script>
